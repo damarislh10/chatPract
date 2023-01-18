@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Logo from "../assets/logo.svg";
@@ -8,12 +8,10 @@ import axios from "axios";
 import { loginRoute } from "../utils/APIRoutes";
 
 export default function Login() {
-  const navigate =  useNavigate();
+  const navigate = useNavigate();
   const [values, setValues] = useState({
     username: "",
-    email: "",
     password: "",
-    confirmPassword: "",
   });
   const toastOptions = {
     position: "bottom-right",
@@ -22,44 +20,40 @@ export default function Login() {
     draggable: true,
     theme: "dark",
   };
+
+  useEffect(() => {
+    if (localStorage.getItem("chat-app-user")) {
+      navigate('/')
+    }
+  }, [])
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (handleValidation()) {
-      const { password, username, email } = values;
+      const { password, username } = values;
       const { data } = await axios.post(loginRoute, {
         username,
-        email,
         password,
       });
-      if(data.status === false){
+      if (data.status === false) {
         toast.error(data.msg, toastOptions);
       }
-      if(data.status === true){
+      if (data.status === true) {
         localStorage.setItem("chat-app-user", JSON.stringify(data.user))
+        navigate("/")
       }
-      navigate("/")
     }
   };
 
   const handleValidation = () => {
-    const { password, confirmPassword, username, email } = values;
-    if (password !== confirmPassword) {
-      toast.error("Contraseña y confirmar contraseña deben ser la misma.", {
+    const { password, username } = values;
+    if (password === "") {
+      toast.error("Usuario y contraseña es requerida.", {
         toastOptions,
       });
       return false;
-    } else if (username.length < 3) {
-      toast.error("Usuario debe tener mas de 3 caracteres.", {
-        toastOptions,
-      });
-      return false;
-    } else if (password.length < 8) {
-      toast.error("Contraseña debe ser igual o mayor a 8 caracteres.", {
-        toastOptions,
-      });
-      return false;
-    } else if (email === "") {
-      toast.error("Correo es requerido.", {
+    } else if (username.length === "") {
+      toast.error("Usuario y contraseña es requerida.", {
         toastOptions,
       });
       return false;
@@ -83,12 +77,7 @@ export default function Login() {
             placeholder="Username"
             name="username"
             onChange={(e) => handleChange(e)}
-          />
-          <input
-            type="email"
-            placeholder="Email"
-            name="email"
-            onChange={(e) => handleChange(e)}
+            min="3"
           />
           <input
             type="password"
@@ -99,7 +88,7 @@ export default function Login() {
 
           <button type="submit">Iniciar sesion</button>
           <span>
-            already have an account ? <Link to="/login">Login</Link>
+            No tienes cuenta ? <Link to="/register">Registro</Link>
           </span>
         </form>
       </FormContainer>
