@@ -8,9 +8,9 @@ export default function Welcome({ currentUser }) {
         <Container>
             <img src={Robot} alt="" />
             <h1>
-                Bienvenido, <span>!</span>
+                Bienvenido, <span>{currentUser.username}!</span>
             </h1>
-            <h3>Selecciona un chat para Iniciar la mensajería.</h3>
+            <h3>Selecciona un chat para comenzar a enviar mensajes.</h3>
         </Container>
     );
 }
