@@ -7,12 +7,14 @@ import { allUsersRoute, host } from "../utils/APIRoutes";
 import ChatContainer from "../components/ChatContainer";
 import Contacts from "../components/Contacts";
 import Welcome from "../components/Welcome";
+import { AddParticipants } from "../components/AddParticipants";
 
 export default function Chat() {
   const navigate = useNavigate();
   const socket = useRef();
   const [contacts, setContacts] = useState([]);
   const [currentChat, setCurrentChat] = useState(undefined);
+  const [showModal, setshowModal] = useState(false);
   const [currentUser, setCurrentUser] = useState(undefined);
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -57,7 +59,10 @@ export default function Chat() {
     <>
       <Container>
         <div className='container'>
-          <Contacts contacts={contacts} currentUser={currentUser} changeChat={handleChatChange} />
+          <Contacts contacts={contacts} currentUser={currentUser} changeChat={handleChatChange} setshowModal={setshowModal} />
+          {showModal && (
+          <AddParticipants setshowModal={setshowModal} />
+          )}
           {
             isLoaded && currentChat === undefined ? (
               <Welcome currentUser={currentUser} />

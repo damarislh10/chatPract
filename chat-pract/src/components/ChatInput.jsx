@@ -21,7 +21,7 @@ export default function ChatInput({ handleSendMsg }) {
     event.preventDefault();
     if (msg.length > 0) {
       handleSendMsg(msg);
-    setShowEmojiPicker(false);
+      setShowEmojiPicker(false);
       setMsg("");
     }
   };
