@@ -2,88 +2,86 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Logo from "../assets/logo.svg";
 import { FaPlus } from "react-icons/fa";
-import { AddParticipants } from "./AddParticipants";
 export default function Contacts({
-  contacts,
-  currentUser,
-  changeChat,
-  setshowModal
+    contacts,
+    currentUser,
+    changeChat,
+    setshowModal
 }) {
-  const [currentUserName, setCurrentUserName] = useState(undefined);
-  const [currentUserImage, setCurrentUserImage] = useState(undefined);
-  const [currentSelected, setCurrentSelect] = useState(undefined);
+    const [currentUserName, setCurrentUserName] = useState(undefined);
+    const [currentUserImage, setCurrentUserImage] = useState(undefined);
+    const [currentSelected, setCurrentSelect] = useState(undefined);
 
-  useEffect(() => {
-    if (currentUser) {
-      setCurrentUserImage(currentUser.avatarImage);
-      setCurrentUserName(currentUser.username);
-    }
-  }, [currentUser]);
+    useEffect(() => {
+        if (currentUser) {
+            setCurrentUserImage(currentUser.avatarImage);
+            setCurrentUserName(currentUser.username);
+        }
+    }, [currentUser]);
 
-  const changeCurrentChat = (index, contact) => {
-    setCurrentSelect(index);
-    changeChat(contact);
-  };
+    const changeCurrentChat = (index, contact) => {
+        setCurrentSelect(index);
+        changeChat(contact);
+    };
 
 
 
-  return (
-    <>
-      {currentUserImage && currentUserImage && (
-        <Container>
-          <div className="brand">
-            <img src={Logo} alt="logo" />
-            <h3>Chat App</h3>
-            <div className="add-sig">
+    return (
+        <>
+            {currentUserImage && currentUserImage && (
+                <Container>
+                    <div className="brand">
+                        <img src={Logo} alt="logo" />
+                        <h3>Chat App</h3>
+                        <div className="add-sig">
 
-              <button
-                onClick={() => {
-                setshowModal(true)
-                }}
-              >
-                <FaPlus></FaPlus>
-              </button>
-            </div>
-          </div>
+                            <button
+                                onClick={() => {
+                                    setshowModal(true)
+                                }}
+                            >
+                                <FaPlus></FaPlus>
+                            </button>
+                        </div>
+                    </div>
 
-          <div className="contacts">
-            {contacts.map((contact, index) => {
-              return (
-                <div
-                  key={contact._id}
-                  className={`contact ${
-                    index === currentSelected ? "selected" : ""
-                  }`}
-                  onClick={() => changeCurrentChat(index, contact)}
-                >
-                  <div className="avatar">
-                    <img
-                      src={`data:image/svg+xml;base64,${contact.avatarImage}`}
-                      alt=""
-                    />
-                  </div>
-                  <div className="username">
-                    <h3>{contact.username}</h3>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-          <div className="current-user">
-            <div className="avatar">
-              <img
-                src={`data:image/svg+xml;base64,${currentUserImage}`}
-                alt="avatar"
-              />
-            </div>
-            <div className="username">
-              <h2>{currentUserName}</h2>
-            </div>
-          </div>
-        </Container>
-      )}
-    </>
-  );
+                    <div className="contacts">
+                        {contacts.map((contact, index) => {
+                            return (
+                                <div
+                                    key={contact._id}
+                                    className={`contact ${index === currentSelected ? "selected" : ""
+                                        }`}
+                                    onClick={() => changeCurrentChat(index, contact)}
+                                >
+                                    <div className="avatar">
+                                        <img
+                                            src={`data:image/svg+xml;base64,${contact.avatarImage}`}
+                                            alt=""
+                                        />
+                                    </div>
+                                    <div className="username">
+                                        <h3>{contact.username}</h3>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                    <div className="current-user">
+                        <div className="avatar">
+                            <img
+                                src={`data:image/svg+xml;base64,${currentUserImage}`}
+                                alt="avatar"
+                            />
+                        </div>
+                        <div className="username">
+                            <h2>{currentUserName}</h2>
+                        </div>
+                    </div>
+                </Container>
+            )}
+        </>
+    );
 }
 
 const Container = styled.div`
@@ -128,11 +126,12 @@ const Container = styled.div`
     }
     .contact {
       background-color: #ffffff34;
+      
       min-height: 5rem;
       cursor: pointer;
       width: 90%;
       border-radius: 0.2rem;
-      padding: 0.4rem;
+      padding: 0.9rem;
       display: flex;
       gap: 1rem;
       align-items: center;
@@ -145,6 +144,8 @@ const Container = styled.div`
       .username {
         h3 {
           color: white;
+          font-size: 18px;
+          margin: 0;
         }
       }
     }
@@ -158,6 +159,7 @@ const Container = styled.div`
     justify-content: center;
     align-items: center;
     gap: 2rem;
+
     .avatar {
       img {
         height: 4rem;
@@ -167,6 +169,8 @@ const Container = styled.div`
     .username {
       h2 {
         color: white;
+        font-size: 25px;
+
       }
     }
     @media screen and (min-width: 720px) and (max-width: 1080px) {

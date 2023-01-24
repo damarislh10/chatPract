@@ -8,6 +8,7 @@ import ChatContainer from "../components/ChatContainer";
 import Contacts from "../components/Contacts";
 import Welcome from "../components/Welcome";
 import { AddParticipants } from "../components/AddParticipants";
+import { NewGroup } from "../components/NewGroup";
 
 export default function Chat() {
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ export default function Chat() {
   const [contacts, setContacts] = useState([]);
   const [currentChat, setCurrentChat] = useState(undefined);
   const [showModal, setshowModal] = useState(false);
+  const [showModalGroup, setshowModalGroup] = useState(false);
   const [currentUser, setCurrentUser] = useState(undefined);
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -28,6 +30,7 @@ export default function Chat() {
     }
   }
   useEffect(() => {
+    console.log(showModalGroup)
     userExit()
   }, [])
 
@@ -61,7 +64,11 @@ export default function Chat() {
         <div className='container'>
           <Contacts contacts={contacts} currentUser={currentUser} changeChat={handleChatChange} setshowModal={setshowModal} />
           {showModal && (
-          <AddParticipants setshowModal={setshowModal} />
+            <AddParticipants contacts={contacts} setshowModalGroup={setshowModalGroup} setshowModal={setshowModal} />
+          )}
+
+          {showModalGroup && (
+            <NewGroup setshowModalGroup={setshowModalGroup} />
           )}
           {
             isLoaded && currentChat === undefined ? (
