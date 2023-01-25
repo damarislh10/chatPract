@@ -14,6 +14,7 @@ export default function Chat() {
   const navigate = useNavigate();
   const socket = useRef();
   const [contacts, setContacts] = useState([]);
+  const [participantsGro, setparticipantsGro] = useState([]);
   const [currentChat, setCurrentChat] = useState(undefined);
   const [showModal, setshowModal] = useState(false);
   const [showModalGroup, setshowModalGroup] = useState(false);
@@ -30,7 +31,6 @@ export default function Chat() {
     }
   }
   useEffect(() => {
-    console.log(showModalGroup)
     userExit()
   }, [])
 
@@ -64,11 +64,11 @@ export default function Chat() {
         <div className='container'>
           <Contacts contacts={contacts} currentUser={currentUser} changeChat={handleChatChange} setshowModal={setshowModal} />
           {showModal && (
-            <AddParticipants contacts={contacts} setshowModalGroup={setshowModalGroup} setshowModal={setshowModal} />
+            <AddParticipants setparticipantsGro= {setparticipantsGro} contacts={contacts} setshowModalGroup={setshowModalGroup} setshowModal={setshowModal} />
           )}
 
           {showModalGroup && (
-            <NewGroup setshowModalGroup={setshowModalGroup} />
+            <NewGroup setshowModalGroup={setshowModalGroup} participants={participantsGro} />
           )}
           {
             isLoaded && currentChat === undefined ? (

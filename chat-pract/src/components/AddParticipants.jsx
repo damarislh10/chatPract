@@ -9,16 +9,16 @@ import { FaArrowRight } from "react-icons/fa"
 import Select from 'react-select';
 
 
-export const AddParticipants = ({ setshowModal, setshowModalGroup, contacts }) => {
+export const AddParticipants = ({ setshowModal, setshowModalGroup, contacts, setparticipantsGro }) => {
   const [currentSelected, setCurrentSelect] = useState(undefined);
   const [contactsSelect, setContactsSelect] = useState([]);
-
+  const [participants, setParticipants] = useState([])
 
   useEffect(() => {
     const array = []
     contacts.forEach(element => {
       array.push({
-        value: element.username, label:
+        value: element.avatarImage + element.username, label:
 
           <div className="d-flex gap-3 align-items-center">
             <img
@@ -36,9 +36,26 @@ export const AddParticipants = ({ setshowModal, setshowModalGroup, contacts }) =
         ...array
       ])
     });
-
   }, [])
 
+  const handleOnChange = (event) => {
+    const array = []
+    event.forEach(e => {
+      let {value} = e
+    array.push({value})
+    setParticipants([
+      ...array
+    ]
+      )
+    });
+
+  }
+
+  const sendAddParticipant = () => {
+    setshowModal(false)
+    setshowModalGroup(true)
+    setparticipantsGro(participants)
+  }
   return (
     <Contain className="container">
 
@@ -56,25 +73,26 @@ export const AddParticipants = ({ setshowModal, setshowModalGroup, contacts }) =
         </Modal.Header>
 
         <Modal.Body className="EmojiPickerReact">
-          <Form>
+          <Form >
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
 
 
               <Select
                 isMulti
+                required
                 placeholder="Escribe el nombre del contacto"
                 name="colors"
+                onChange={handleOnChange}
                 className="border border-0 border-bottom rounded-0"
                 options={contactsSelect}
                 classNamePrefix="select"
               />
 
             </Form.Group>
-            <Form.Group
-              className="mb-3"
-              controlId="exampleForm.ControlTextarea1"
-            >
-              <div className="my-4 d-flex flex-wrap justify-content-center gap-4 overflow-auto" style={{ height: '500px' }}>
+          
+          </Form>
+  
+              <div className="my-4 d-flex flex-wrap justify-content-center gap-4 overflow-auto" >
 
                 {contacts.map((contact, index) => {
                   return (
@@ -96,8 +114,6 @@ export const AddParticipants = ({ setshowModal, setshowModalGroup, contacts }) =
                   );
                 })}
               </div>
-            </Form.Group>
-          </Form>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => {
@@ -105,12 +121,14 @@ export const AddParticipants = ({ setshowModal, setshowModalGroup, contacts }) =
           }}>
             Cerrar
           </Button>
-          <Button className="btn-seg" onClick={() => {
-            setshowModal(false)
-            setshowModalGroup(true)
-          }}>
-            <FaArrowRight></FaArrowRight>
-          </Button>
+          {participants.length !== 0 ? 
+            <Button variant="success" className="btn-seg" onClick={() => {
+              sendAddParticipant()
+            }}>
+              <FaArrowRight></FaArrowRight>
+            </Button>
+          :""} 
+        
         </Modal.Footer>
       </Modal>
     </Contain >
